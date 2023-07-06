@@ -7,7 +7,7 @@ const LoginPage = () => {
     return (
         <div>
             <p>
-                Welcome to the Productivity App! Please Log In to continue through to the application
+                Welcome to the Boilerplate! Please Log In to continue through to the application
             </p>
             <LoginButton buttonText="Log In" />
         </div>
