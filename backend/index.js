@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 const uri = process.env.MONGO_DB_URI;
 
 app.post('/addTodo', async (req, res) => {
-
+    validateOrigin(req, res);
     const client = new MongoClient(uri, {
         serverApi: {
             version: ServerApiVersion.v1,
@@ -48,6 +48,7 @@ app.post('/addTodo', async (req, res) => {
 });
 
 app.post('/getTodo', async (req, res) => {
+    validateOrigin(req, res);
     const client = new MongoClient(uri, {
         serverApi: {
             version: ServerApiVersion.v1,
@@ -76,9 +77,19 @@ app.post('/getTodo', async (req, res) => {
 });
 
 app.get('/keys', (req, res) => {
+    validateOrigin(req, res);
     console.log("request here");
     res.send(process.env.REACT_APP_AUTH0_CLIENT_ID);
 });
+
+const validateOrigin = (req, res) => {
+    const allowedOrigin = 'https://jakemartin1234.github.io';
+    const requestOrigin = req.headers.origin;
+    console.log(requestOrigin);
+    if (requestOrigin !== allowedOrigin) {
+        res.status(403).json({ error: 'Forbidden' });
+    }
+}
 
 app.listen(port, () => {
     console.log(`Backend listening at http://localhost:${port}`);
