@@ -24,16 +24,20 @@ const TodoForm = ({ addTodo }) => {
              }}
         >
             <TextField
-                label="New Todo"
-                variant="outlined"
+                label="Enter new item here ..."
+                variant="standard"
                 value={text}
                 onChange={handleChange}
-                placeholder="Enter new items here ..."
                 fullWidth
-                sx={{ mb: 2 }}
+                sx={{ mb: 2}}
+                InputLabelProps={{
+                    sx: {
+                        color: "grey",
+                    }
+                }}
             />
             <Button type="submit" variant="contained" color="primary">
-                Add Todo
+                Add To List
             </Button>
         </Box>
     );

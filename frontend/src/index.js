@@ -8,13 +8,14 @@ import theme from './components/utils/Theme';
 import axios from 'axios';
 
 const renderApp = (clientId) => {
+    console.log(window.location.origin);
     createRoot(document.getElementById('root')).render(
         <div className="App">
             <Auth0Provider
-                domain={process.env.REACT_APP_AUTH0_DOMAIN}
+                domain={"dev-zf5rma6cwrgiqo0n.us.auth0.com"}
                 clientId={clientId}
                 authorizationParams={{
-                    redirect_uri: window.location.origin,
+                    redirect_uri: `${window.location.origin}/productivity-app-frontend`,
                 }}
             >
                 <ThemeProvider theme={theme}>
@@ -26,12 +27,14 @@ const renderApp = (clientId) => {
 };
 
 const fetchClientId = async() => {
-    const keys = await axios.get('http://localhost:8000/keys')
+    console.log(process.env.REACT_APP_BACKEND_URL);
+    const keys = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/keys`)
+    console.log(keys);
     renderApp(keys.data);
 };
 
 // Fetch Auth0 client ID from backend API during component initialization
-fetchClientId();
+await fetchClientId();
 
 
 

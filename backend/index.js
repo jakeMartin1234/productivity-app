@@ -5,7 +5,7 @@ require('dotenv').config();
 const { MongoClient, ServerApiVersion } = require('mongodb');
 
 const app = express()
-const port = 8000;
+const port = process.env.PORT || 8000;
 const corsOpts = {
     origin: '*',
 };
@@ -43,6 +43,7 @@ app.post('/addTodo', async (req, res) => {
     } finally {
         await client.close();
     }
+    res.send("Success");
 
 });
 
@@ -75,6 +76,7 @@ app.post('/getTodo', async (req, res) => {
 });
 
 app.get('/keys', (req, res) => {
+    console.log("request here");
     res.send(process.env.REACT_APP_AUTH0_CLIENT_ID);
 });
 

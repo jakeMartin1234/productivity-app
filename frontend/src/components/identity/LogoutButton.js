@@ -9,8 +9,9 @@ const LogoutButton = () => {
     return (
         <Button variant="contained"
                 color="secondary"
-                onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>
-            <Typography variant={"body2"} fontSize='1.0rem' fontWeight='bold'>
+                onClick={() => logout({ logoutParams:
+                        { returnTo: `${window.location.origin}/productivity-app-frontend` } })}>
+            <Typography variant={"body1"} fontSize='1.0rem' fontWeight='bold'>
                 Log Out
             </Typography>
         </Button>

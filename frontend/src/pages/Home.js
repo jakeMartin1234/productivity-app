@@ -1,19 +1,22 @@
 import React, {useEffect} from "react";
 import LogoutButton from "../components/identity/LogoutButton";
-import {Box, Toolbar, AppBar, Typography, Button, List} from "@mui/material";
+import {Box, Toolbar, AppBar, Typography, Button, List, IconButton, Avatar} from "@mui/material";
 import ToDoPage from "./ToDoPage";
-import Calendar from "./Calendar";
 import HomeLandingPage from "./HomeLandingPage";
 import axios from "axios";
+import Profile from "../components/identity/Profile";
+import {useAuth0} from "@auth0/auth0-react";
 
-const Home = ({ user }) => {
+const Home = () => {
+    const { user } = useAuth0();
     const [renderedComponent, setRenderedComponent] = React.useState("home");
     const [toDoData, setToDoData] = React.useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.post('http://localhost:8000/getTodo', {
+                const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/getTodo`,
+                    {
                     user: user,
                 });
                 setToDoData(response.data);
@@ -49,10 +52,9 @@ const Home = ({ user }) => {
                 toDoData={toDoData}
                 changeCheck={handleCheckboxToggle}
                 deleteToDo={handleDeleteTodo}
-                user={user}
             />
-        } else if (renderedComponent === "calendar") {
-            return <Calendar />
+        } else if (renderedComponent === "profile") {
+            return <Profile />
         } else {
             return <HomeLandingPage />
         }
@@ -64,7 +66,11 @@ const Home = ({ user }) => {
 
 
     return (
-        <Box sx={{flexGrow: 1}} >
+        <Box bgcolor="background.default"
+            sx={{flexGrow: 1,
+                minHeight: '100vh',
+            }}
+        >
             <AppBar position="static">
                 <Toolbar>
                     <Button onClick={() => handleAppBarClick("home")}>
@@ -80,25 +86,26 @@ const Home = ({ user }) => {
                         >
                             TODO LIST
                         </Button>
-                        <Button
-                            variant="text"
-                            color="secondary"
-                            onClick={() => handleAppBarClick("calendar")}
-                        >
-                            CALENDAR
-                        </Button>
                     </List>
 
                     <Box sx={{ flexGrow: 1 }}></Box>
+                    <IconButton onClick={() => setRenderedComponent("profile")}
+                                sx={{
+                                    marginRight: '1.0rem',
+                                }}
+                    >
+                        <Avatar alt={user.email} src={user.picture} />
+                    </IconButton>
                     <LogoutButton />
                 </Toolbar>
             </AppBar>
-            <Box sx={{
-                flexGrow: 1,
-                marginTop: '2.0rem',
-            }}>
-                {renderComponent()}
-            </Box>
+                <Box
+                     sx={{ flexGrow: 1,
+                         marginTop : '2.0rem',
+                     }}
+                >
+                    {renderComponent()}
+                </Box>
         </Box>
     )
 };

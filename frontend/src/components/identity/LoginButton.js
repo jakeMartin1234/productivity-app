@@ -4,13 +4,12 @@ import {Typography, Button, useTheme} from "@mui/material";
 
 const LoginButton = ({ buttonText }) => {
     const { loginWithRedirect } = useAuth0();
-    const theme = useTheme();
 
     return (
         <Button variant="contained"
                 color='secondary'
                 onClick={() => loginWithRedirect()}>
-            <Typography variant={"body2"} fontSize='1.0rem' fontWeight='bold'>
+            <Typography variant={"body1"} fontSize='1.0rem' fontWeight='bold'>
                 {buttonText}
             </Typography>
         </Button>

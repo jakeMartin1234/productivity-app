@@ -6,13 +6,14 @@ import {
     List,
     ListItem,
     ListItemIcon,
-    ListItemSecondaryAction,
     ListItemText,
     Typography,
+    useTheme,
 } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
+import Close from '@mui/icons-material/Close';
 
 const TodoList = ({ toDoData, changeCheck, deleteToDo }) => {
+    const theme = useTheme()
 
     const handleCheckboxToggle = (id) => {
         changeCheck(id);
@@ -41,30 +42,46 @@ const TodoList = ({ toDoData, changeCheck, deleteToDo }) => {
                         bgcolor: todo.completed
                             ? '#666666'
                             : '#333333',
-                        borderRadius: '8px',
                         marginBottom: '8px',
-                        padding: '8px',
+                        borderRadius: '3px',
+                        boxShadow: "0px 4px 5px rgba(0, 0, 0, 0.3)",
                     }}
                 >
                     <ListItem disableGutters
-                              component="div">
-                        <ListItemIcon>
+                              component="div"
+                    >
+                        <Box
+                            sx={{
+                                position: 'absolute',
+                                top: 0,
+                                left: 0,
+                                bottom: 0,
+                                width: '5px',
+                                borderRadius: '3px 0px 0px 3px',
+                                backgroundColor: theme.palette.primary.main,
+                            }}
+                        />
+                        <ListItemIcon sx={{ marginLeft: '15px' }}>
                             <Checkbox
                                 checked={todo.completed}
                                 onChange={() => handleCheckboxToggle(todo.id)}
-                                color="secondary"
+                                sx={{ color: theme.palette.primary.main}}
 
                             />
                         </ListItemIcon>
-                        <ListItemText primary={todo.text} />
-                        <Box sx={{ right: '10px' }}>
+                        <ListItemText primary={todo.text}
+                                      primaryTypographyProps={{fontSize: '1.2rem'}}
+                        />
+                        <Box>
                             <IconButton
                                 edge="end"
                                 aria-label="delete"
                                 onClick={() => handleDeleteTodo(todo.id)}
-                                sx={{ color: 'red' }}
+                                sx={{ color: '#FF3333',
+                                    marginRight: '15px',
+                                }}
                             >
-                                <DeleteIcon />
+                                <Close sx={{ width: '30px', height: '30px' }} />
                             </IconButton>
                         </Box>
                     </ListItem>

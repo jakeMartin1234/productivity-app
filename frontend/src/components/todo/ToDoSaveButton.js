@@ -1,22 +1,26 @@
 import React, { useState } from 'react';
 import { Button, Alert } from '@mui/material';
 import axios from 'axios';
+import {useAuth0} from "@auth0/auth0-react";
 
-function ToDoSaveButton({ toDoData, user }) {
+function ToDoSaveButton({ toDoData }) {
     const [showSuccess, setShowSuccess] = useState(false);
+    const { user } = useAuth0();
 
     const handleClick = async () => {
+        console.log("Clicked save button");
 
-        const response = await axios.post('http://localhost:8000/addTodo', {
+        await axios.post(`${process.env.REACT_APP_BACKEND_URL}/addToDo`,
+            {
             toDoData: toDoData,
             user: user,
         });
-        if (response.status !== 200) {
-            console.log("API call successful!");
-        }
+        console.log("API call successful!");
 
         setShowSuccess(true);
+
         setTimeout(() => {
+            console.log("Timeout worked");
             setShowSuccess(false);
         }, 3000);
     };
@@ -24,19 +28,29 @@ function ToDoSaveButton({ toDoData, user }) {
     return (
         <div>
             <Button variant="contained"
-                    onClick={handleClick}
+                    onClick={() => handleClick()}
                     sx={{ marginTop: '1.5rem'}}
             >
-                Save ToDo List
+                Save
             </Button>
-            {showSuccess && (
-                <Alert
-                    severity="success" // Change the severity as desired (success, error, warning, info)
-                    onClose={() => setShowSuccess(false)}
+            {showSuccess &&
+                <div
+                    style={{
+                        position: 'fixed',
+                        bottom: '1rem',
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                        zIndex: 9999,
+                    }}
                 >
-                    API call successful!
-                </Alert>
-            )}
+                    <Alert
+                        severity="success" // Change the severity as desired (success, error, warning, info)
+                        onClose={() => setShowSuccess(false)}
+                    >
+                        Save Successful!
+                    </Alert>
+                </div>
+            }
         </div>
     );
 }

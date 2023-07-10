@@ -35,7 +35,7 @@ function App() {
     };
 
     return (
-        <Home user={user} />
+        <Home />
     );
 }
 
