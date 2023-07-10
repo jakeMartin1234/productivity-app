@@ -7,7 +7,7 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
 const app = express()
 const port = process.env.PORT || 8000;
 const corsOpts = {
-    origin: '*',
+    origin: 'https://jakemartin1234.github.io',
 };
 
 app.use(cors(corsOpts));
